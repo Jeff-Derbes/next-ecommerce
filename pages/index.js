@@ -32,11 +32,11 @@ export default function Home(products) {
 
 export async function getStaticProps() {
     const products = await shopifyCall(allProductsQuery)
-    console.log(products)
+
 
     return {
         props: {
-            products
+            products: products.products.edges
         }
     }
 }
