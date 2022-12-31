@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Hero(props) {
+function Hero() {
     return (
         <section className="bg-gray-800 text-gray-100">
             <div

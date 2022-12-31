@@ -3,7 +3,7 @@ import Image from 'next/image'
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import ProductList from "../components/ProductList";
-import {storefront} from "../utils/storefront";
+import {getAllProducts, shopifyCall} from "../utils/storefront";
 
 
 export default function Home(products) {
@@ -22,7 +22,7 @@ export default function Home(products) {
                 </section>
 
                 <section>
-                    <ProductList/>
+                    <ProductList products={products}/>
                 </section>
 
             </main>
@@ -31,18 +31,20 @@ export default function Home(products) {
 }
 
 export async function getStaticProps() {
-    const {data} = await storefront(productQuery)
+    const products = await shopifyCall(allProductsQuery)
+    console.log(products)
 
     return {
         props: {
-            products: data.products
+            products
         }
     }
 }
 
-const productQuery = `
+
+const allProductsQuery = `
 query Products {
-  products(first:6){
+  products(first:8){
     edges{
       node{
         title

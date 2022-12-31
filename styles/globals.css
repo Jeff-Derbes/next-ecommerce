@@ -12,7 +12,7 @@ html {
 
 @layer base {
     body {
-        @apply bg-gray-800 text-neutral-50 tracking-wide
+        @apply bg-gray-100  tracking-wide
     }
 
     input, textarea {
