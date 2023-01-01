@@ -14,23 +14,23 @@ function Navbar(props) {
         <div className="fixed w-full h-20 z-[100]">
             <div className="flex justify-between items-center w-full h-full px-10 2xl:px-16 bg-secondary">
 
-                <Link scroll={false} href="/#home">
+                <Link scroll={false} href="/">
                     <FaGalacticRepublic className="text-5xl text-white cursor-pointer"/>
                 </Link>
 
                 <div>
                     <ul className="hidden md:flex">
-                        <Link href="/#home" scroll={false}>
+                        <Link href="/" scroll={false}>
                             <li className="ml-10 text-sm text-base-100 uppercase hover:text-accent">
                                 Home
                             </li>
                         </Link>
-                        <Link href="/#about" scroll={false}>
+                        <Link href="/about" scroll={false}>
                             <li className="ml-10 text-sm text-base-100 uppercase  hover:text-accent">
                                 About
                             </li>
                         </Link>
-                        <Link href="/#contact" scroll={false}>
+                        <Link href="/contact" scroll={false}>
                             <li className="ml-10 text-sm text-base-100 uppercase hover:text-accent">
                                 Contact
                             </li>
