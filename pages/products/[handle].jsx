@@ -1,8 +1,10 @@
-import {storefront} from "../../utils/storefront";
+import {getProduct, getProductSlugs} from "../../utils/storefront";
 import React, { useState } from "react";
 
-function ProductPage({product: singleProduct})  {
-    console.log(singleProduct)
+// TODO: Make this page dynamic with the correct product variant
+
+function ProductPage({productData})  {
+    console.log(productData)
 
     const [rotate, setRotate] = useState(false);
     const [count, setCount] = useState(1);
@@ -18,16 +20,16 @@ function ProductPage({product: singleProduct})  {
     };
 
     return (
-        <div className="container mx-auto px-6 py-16">
+        <div className="container mx-auto px-6 py-[180px]">
             <div className="md:flex md:items-center">
                 <div className="w-full h-64 md:w-1/2 lg:h-96">
-                    <img className="h-full w-full rounded-md object-cover max-w-lg mx-auto"
-                         src="https://images.unsplash.com/photo-1578262825743-a4e402caab76?ixlib=rb-1.2.1&auto=format&fit=crop&w=1051&q=80"
+                    <img className="h-full w-full rounded-md object-contain max-w-lg mx-auto"
+                         src={productData.images.edges[0].node.originalSrc}
                          alt="Nike Air" />
                 </div>
                 <div className="w-full max-w-lg mx-auto mt-5 md:ml-8 md:mt-0 md:w-1/2">
-                    <h3 className="text-gray-700 uppercase text-lg">Nike Air</h3>
-                    <span className="text-gray-500 mt-3">$125</span>
+                    <h3 className="text-gray-700 uppercase text-lg">{productData.title}</h3>
+                    <span className="text-gray-500 mt-3">{productData.variants.edges[0].node.price.amount}</span>
                     <hr className="my-3" />
                         <div className="mt-2">
                             <label className="text-gray-700 text-sm" htmlFor="count">Count:</label>
@@ -51,7 +53,7 @@ function ProductPage({product: singleProduct})  {
                         <div className="mt-3">
                             <label className="text-gray-700 text-sm" htmlFor="count">Description:</label>
                             <h3 className="text-gray-500">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus alias aliquid
+                                {productData.description}
                             </h3>
                         </div>
                         <div className="flex items-center mt-6">
@@ -147,62 +149,34 @@ function ProductPage({product: singleProduct})  {
     );
 }
 
+
+
 export async function getStaticPaths() {
-    const {data} = await storefront(paramsQuery);
+    const productSlugs = await getProductSlugs()
+
+    const paths = productSlugs.map((slug) => {
+        const product = slug.node.handle.toString()
+
+        return {
+            params: { handle: product }
+        }
+    })
 
     return {
-        paths: data.products.edges.map(product => ({
-            params: { handle: product.node.handle }
-        })),
+        paths,
         fallback: false,
     }
 }
+export async function getStaticProps({ params }) {
+    const productData = await getProduct(params.handle)
 
-export async function getStaticProps({params}) {
-    const {data} = await storefront(singleProductQuery, {handle: params.handle});
     return {
         props: {
-            data
+            productData,
         },
-    };
+    }
 }
 
-const paramsQuery = `
-{
-  products(first:8){
-    edges{
-      node{
-        handle
-      }
-    }
-  }
-}
-`
-
-
-const singleProductQuery = `
-query SingleProduct($handle: String!){
-  productByHandle(handle: $handle){
-    title
-    description
-    updatedAt
-    tags
-    priceRangeV2{
-      minVariantPrice{
-        amount
-      }
-    }
-    images(first: 1){
-      edges{
-        node{
-          transformedSrc
-          altText
-        }
-      }
-    }
-  }
-}
-`
 
 
 export default ProductPage;

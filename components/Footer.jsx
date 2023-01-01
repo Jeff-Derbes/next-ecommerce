@@ -2,7 +2,7 @@ import React from 'react';
 
 function Footer(props) {
     return (
-        <footer className="footer p-10 bg-neutral text-neutral-content">
+        <footer className="footer p-10 bg-secondary text-neutral-content ">
             <div>
                 <svg width="50" height="50" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fillRule="evenodd"
                      clipRule="evenodd" className="fill-current">

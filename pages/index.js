@@ -7,7 +7,6 @@ import {getAllProducts, shopifyCall} from "../utils/storefront";
 
 
 export default function Home(products) {
-    console.log(products)
     return (
         <>
             <Head>
@@ -17,7 +16,7 @@ export default function Home(products) {
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
             <main className="relative">
-                <section>
+                <section className="pt-[80px]">
                     <Hero/>
                 </section>
 
@@ -31,40 +30,14 @@ export default function Home(products) {
 }
 
 export async function getStaticProps() {
-    const products = await shopifyCall(allProductsQuery)
+    const products = await getAllProducts()
+    console.log(products)
 
 
     return {
         props: {
-            products: products.products.edges
+            products
         }
     }
 }
 
-
-const allProductsQuery = `
-query Products {
-  products(first:8){
-    edges{
-      node{
-        title
-        handle
-        tags
-        priceRange{
-          minVariantPrice{
-            amount
-          }
-        }
-        images(first: 1){
-          edges{
-            node{
-              transformedSrc
-              altText
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`

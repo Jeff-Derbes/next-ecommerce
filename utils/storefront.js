@@ -57,62 +57,62 @@ query Products {
 `
 
     const res = await shopifyCall(query);
-    const allProducts = res.data.products.edges;
+    console.log(res.products.edges)
+    const allProducts = res.products.edges;
 
     return allProducts
 }
 
 export async function getProductSlugs(){
     const query = `
-query Products {
-    products(first:250){
-        edges{
-            node{
-                handle
-            }
-        }
+{
+  products(first: 250) {
+    edges {
+      node {
+        handle
+      }
     }
+  }
+}
  `
 
     const res = await shopifyCall(query);
-    const slug = res.data.products.edges ? res.data.products.edges : []
-    return slug
-
+    return res.products.edges
 }
 
-const async function getProduct(handle){
+export async function getProduct(handle){
     const query = `
-    {
-      productByHandle(handle: "${handle}") {
-        id
-        title
-        handle
-        description
-        images(first: 250) {
-          edges {
-            node {
-              id
-              originalSrc
-              height
-              width     
-              altText             
-            }
-          }
-        }
-        variants(first: 250) {
-          edges {
-            node {
-              id
-              title
-              price                
-            }
-          }
+    query SingleProduct{
+  productByHandle(handle: "${handle}") {
+    id
+    title
+    handle
+    description
+    images(first: 250) {
+      edges {
+        node {
+          id
+          originalSrc
+          height
+          width
+          altText
         }
       }
     }
-    `
-
+    variants(first: 250) {
+      edges {
+        node {
+          id
+          title
+          price{
+    amount
+          }
+          }
+      }
+    }
+  }
+}
+`
     const res = await shopifyCall(query);
-    const product = res.data.productByHandle ? res.data.productByHandle : [];
-    return product
+    return res.productByHandle
 }
