@@ -111,8 +111,31 @@ export async function getProduct(handle){
       }
     }
   }
+  products(first:6){
+    edges{
+      node{
+        title
+        handle
+        tags
+        priceRange{
+          minVariantPrice{
+            amount
+          }
+        }
+        images(first: 1){
+          edges{
+            node{
+              transformedSrc
+              altText
+            }
+          }
+        }
+      }
+    }
+  }
 }
 `
     const res = await shopifyCall(query);
-    return res.productByHandle
+
+    return res
 }
