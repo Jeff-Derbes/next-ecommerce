@@ -80,7 +80,7 @@ function ProductPage({productData, products})  {
                 <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
                     {relatedProducts.map((item) => (
-                        <div className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-white">
+                        <div key={item.node.id} className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden bg-white">
                             <div className="flex items-end justify-end h-56 w-full bg-contain bg-center bg-no-repeat"
                                  style={{backgroundImage: `url(${item.node.images.edges[0].node.transformedSrc})`}}>
                                 <Link

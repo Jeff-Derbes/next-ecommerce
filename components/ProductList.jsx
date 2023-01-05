@@ -25,7 +25,7 @@ function ProductList({products}) {
                                     />
                                 </div>
                                 <h3 className="mt-4 text-sm">{product.title}</h3>
-                                <p className="mt-1 text-lg font-medium">${product.priceRange.minVariantPrice.amount}</p>
+                                <p className="mt-1 text-lg font-mediumf">${product.priceRange.minVariantPrice.amount}</p>
 
                             </Link>
                         )
