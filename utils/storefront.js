@@ -130,6 +130,13 @@ export async function getProduct(handle){
             }
           }
         }
+        variants(first: 1){
+            edges{
+                node{
+                id
+            }
+          }
+        }
       }
     }
   }
@@ -138,4 +145,24 @@ export async function getProduct(handle){
     const res = await shopifyCall(query);
 
     return res
+}
+
+export async function checkoutMutation(variantId){
+    const query = `
+    mutation CheckoutCreate($variantId: ID!){
+  checkoutCreate(input: {
+    lineItems{
+      variantId: "${variantId}",
+      quantity: 1
+    }
+  }) {
+checkout{
+  webUrl
+}}
+}
+    `
+    const res = await shopifyCall(query);
+    console.log(res)
+
+
 }
